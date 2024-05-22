@@ -1,0 +1,26 @@
+version: "3.1"
+services:
+  api-air:
+    container_name: accountame-api
+    image: cosmtrek/air
+    networks:
+      - accountame-network
+    working_dir: /api
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=accountame-db
+    volumes:
+      - ./api/:/api/
+  db:
+    image: postgres:10
+    container_name: accountame-db
+    environment:
+      - POSTGRES_PASSWORD=root
+    ports:
+      - "5432:5432"
+    networks:
+      - accountame-network
+
+networks:
+  accountame-network: {}
