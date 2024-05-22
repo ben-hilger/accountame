@@ -21,14 +21,16 @@ func NewInfraStack(scope constructs.Construct, id string, props *InfraStackProps
 	}
 	stack := awscdk.NewStack(scope, &id, &sprops)
 
-	var vpc awsec2.Vpc
+	var vpc awsec2.Vpc = awsec2.NewVpc(stack, jsii.String("accountame"), &awsec2.VpcProps{
+		IpAddresses: awsec2.IpAddresses_Cidr(jsii.String("10.0.0.0/16")),
+	})
 
 	awsrds.NewDatabaseInstance(stack, jsii.String("instance"), &awsrds.DatabaseInstanceProps{
 		Engine:       awsrds.DatabaseInstanceEngine_POSTGRES(),
 		InstanceType: awsec2.InstanceType_Of(awsec2.InstanceClass_BURSTABLE3, awsec2.InstanceSize_SMALL),
 		Credentials:  awsrds.Credentials_FromGeneratedSecret(jsii.String("syscdk"), &awsrds.CredentialsBaseOptions{}),
 		Vpc:          vpc,
-		VpcSubnets:   &awsec2.SubnetSelection{SubnetType: awsec2.SubnetType_PRIVATE_ISOLATED},
+		VpcSubnets:   &awsec2.SubnetSelection{SubnetType: awsec2.SubnetType_PRIVATE_WITH_EGRESS},
 	})
 
 	return stack
