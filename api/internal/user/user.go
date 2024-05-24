@@ -17,3 +17,16 @@ func (u User) isMissingInformation() bool {
 		u.Email == "" ||
 		u.HashedPassword == ""
 }
+
+type RegisterUser struct {
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Name     string `json:"name"`
+	Password string `json:"password"`
+}
+
+func (u RegisterUser) isMissingInformation() bool {
+	return u.Name == "" ||
+		u.Username == "" ||
+		u.Email == ""
+}
