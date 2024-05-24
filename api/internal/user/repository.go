@@ -5,14 +5,18 @@ import (
 	"fmt"
 )
 
-type Store interface {
+type Repository interface {
 	DoesUserExist(email string) (bool, error)
-	InsertUser(user User) error
+	RegisterUser(user User) error
 	GetUser(email string) (User, error)
 }
 
 type PostgresClient struct {
 	database *sql.DB
+}
+
+func NewPostgresClient(database *sql.DB) PostgresClient {
+	return PostgresClient{database: database}
 }
 
 func (p PostgresClient) DoesUserExist(email string) (bool, error) {
@@ -31,7 +35,7 @@ func (p PostgresClient) DoesUserExist(email string) (bool, error) {
 	return rows.Next(), nil
 }
 
-func (p PostgresClient) InsertUser(user User) error {
+func (p PostgresClient) RegisterUser(user User) error {
 	if user.isMissingInformation() {
 		return fmt.Errorf("missing information to create the user")
 	}

@@ -1,0 +1,2 @@
+[build]
+cmd = "go build -o tmp/api cmd/api/main.go"

@@ -12,6 +12,7 @@ services:
       - DB_USER=root
       - DB_PASSWORD=root
       - DB_NAME=accountame
+      - BEARER_SALT=localtestauthsalt
     volumes:
       - ./api/:/api/
     networks:
