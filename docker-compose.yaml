@@ -1,0 +1,36 @@
+version: "3.1"
+services:
+  api-air:
+    container_name: accountame-api
+    image: cosmtrek/air
+    working_dir: /api
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=accountame-db
+      - DB_PORT=5432
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=accountame
+    volumes:
+      - ./api/:/api/
+    networks:
+      - accountame-network
+  db:
+    image: postgres:16
+    shm_size: 128mb
+    container_name: accountame-db
+    environment:
+      POSTGRES_PASSWORD: localrootpassword
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - ./database/db:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/0.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - accountame-network
+
+networks:
+  accountame-network: {}
