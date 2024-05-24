@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		08BBB95E2BFD5F5C00128E10 /* accountameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBB95D2BFD5F5C00128E10 /* accountameApp.swift */; };
+		08BBB95E2BFD5F5C00128E10 /* AccountameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBB95D2BFD5F5C00128E10 /* AccountameApp.swift */; };
 		08BBB9602BFD5F5C00128E10 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBB95F2BFD5F5C00128E10 /* ContentView.swift */; };
 		08BBB9622BFD5F5D00128E10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08BBB9612BFD5F5D00128E10 /* Assets.xcassets */; };
 		08BBB9652BFD5F5D00128E10 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08BBB9642BFD5F5D00128E10 /* Preview Assets.xcassets */; };
@@ -35,7 +35,7 @@
 
 /* Begin PBXFileReference section */
 		08BBB95A2BFD5F5C00128E10 /* accountame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = accountame.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		08BBB95D2BFD5F5C00128E10 /* accountameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = accountameApp.swift; sourceTree = "<group>"; };
+		08BBB95D2BFD5F5C00128E10 /* AccountameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountameApp.swift; sourceTree = "<group>"; };
 		08BBB95F2BFD5F5C00128E10 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		08BBB9612BFD5F5D00128E10 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		08BBB9642BFD5F5D00128E10 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -94,7 +94,7 @@
 		08BBB95C2BFD5F5C00128E10 /* accountame */ = {
 			isa = PBXGroup;
 			children = (
-				08BBB95D2BFD5F5C00128E10 /* accountameApp.swift */,
+				08BBB95D2BFD5F5C00128E10 /* AccountameApp.swift */,
 				08BBB95F2BFD5F5C00128E10 /* ContentView.swift */,
 				08BBB9612BFD5F5D00128E10 /* Assets.xcassets */,
 				08BBB9632BFD5F5D00128E10 /* Preview Content */,
@@ -258,7 +258,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08BBB9602BFD5F5C00128E10 /* ContentView.swift in Sources */,
-				08BBB95E2BFD5F5C00128E10 /* accountameApp.swift in Sources */,
+				08BBB95E2BFD5F5C00128E10 /* AccountameApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,6 +425,7 @@
 				DEVELOPMENT_TEAM = PKCUH77SJ7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Accountame;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -454,6 +455,7 @@
 				DEVELOPMENT_TEAM = PKCUH77SJ7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Accountame;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
