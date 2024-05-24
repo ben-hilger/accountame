@@ -1,7 +1,7 @@
 # Accountame
 
 [![Go - 22.0](https://img.shields.io/badge/Go-22.0-2ea44f?logo=go&logoColor=%2300ADD8)](https://tip.golang.org/doc/go1.22)
-[![postgresql - 16](https://img.shields.io/static/v1?label=postgresql&message=16&color=%234169E1&logo=postgresql&logoColor=%234169E1)](https://tip.golang.org/doc/go1.22)
+![postgresql - 16](https://img.shields.io/static/v1?label=postgresql&message=16&color=%234169E1&logo=postgresql&logoColor=%234169E1)
 
 
 Accountame is a project that seeks to provide a tool to turn your phone  
