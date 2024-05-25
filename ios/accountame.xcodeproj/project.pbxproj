@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0830455C2C01A3AD0051050A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0830455B2C01A3AD0051050A /* User.swift */; };
+		083045612C0234900051050A /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083045602C0234900051050A /* Api.swift */; };
+		083045642C0235030051050A /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083045632C0235030051050A /* Environment.swift */; };
 		08BBB95E2BFD5F5C00128E10 /* AccountameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBB95D2BFD5F5C00128E10 /* AccountameApp.swift */; };
 		08BBB9602BFD5F5C00128E10 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBB95F2BFD5F5C00128E10 /* ContentView.swift */; };
 		08BBB9622BFD5F5D00128E10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08BBB9612BFD5F5D00128E10 /* Assets.xcassets */; };
@@ -14,6 +17,7 @@
 		08BBB96F2BFD5F5D00128E10 /* accountameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBB96E2BFD5F5D00128E10 /* accountameTests.swift */; };
 		08BBB9792BFD5F5D00128E10 /* accountameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBB9782BFD5F5D00128E10 /* accountameUITests.swift */; };
 		08BBB97B2BFD5F5D00128E10 /* accountameUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBB97A2BFD5F5D00128E10 /* accountameUITestsLaunchTests.swift */; };
+		08E06FCC2C019B3F008013CE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E06FCB2C019B3F008013CE /* LoginView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +38,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0830455B2C01A3AD0051050A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		083045602C0234900051050A /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
+		083045632C0235030051050A /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		08BBB95A2BFD5F5C00128E10 /* accountame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = accountame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BBB95D2BFD5F5C00128E10 /* AccountameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountameApp.swift; sourceTree = "<group>"; };
 		08BBB95F2BFD5F5C00128E10 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -44,6 +51,7 @@
 		08BBB9742BFD5F5D00128E10 /* accountameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = accountameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BBB9782BFD5F5D00128E10 /* accountameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = accountameUITests.swift; sourceTree = "<group>"; };
 		08BBB97A2BFD5F5D00128E10 /* accountameUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = accountameUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		08E06FCB2C019B3F008013CE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +79,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0830455A2C01A3780051050A /* user */ = {
+			isa = PBXGroup;
+			children = (
+				0830455B2C01A3AD0051050A /* User.swift */,
+			);
+			path = user;
+			sourceTree = "<group>";
+		};
+		0830455D2C02342F0051050A /* api */ = {
+			isa = PBXGroup;
+			children = (
+				083045602C0234900051050A /* Api.swift */,
+			);
+			path = api;
+			sourceTree = "<group>";
+		};
+		083045622C0234F90051050A /* environment */ = {
+			isa = PBXGroup;
+			children = (
+				083045632C0235030051050A /* Environment.swift */,
+			);
+			path = environment;
+			sourceTree = "<group>";
+		};
 		08BBB9512BFD5F5C00128E10 = {
 			isa = PBXGroup;
 			children = (
@@ -94,6 +126,10 @@
 		08BBB95C2BFD5F5C00128E10 /* accountame */ = {
 			isa = PBXGroup;
 			children = (
+				083045622C0234F90051050A /* environment */,
+				0830455D2C02342F0051050A /* api */,
+				0830455A2C01A3780051050A /* user */,
+				08BBB98B2C019A8F00128E10 /* login */,
 				08BBB95D2BFD5F5C00128E10 /* AccountameApp.swift */,
 				08BBB95F2BFD5F5C00128E10 /* ContentView.swift */,
 				08BBB9612BFD5F5D00128E10 /* Assets.xcassets */,
@@ -125,6 +161,14 @@
 				08BBB97A2BFD5F5D00128E10 /* accountameUITestsLaunchTests.swift */,
 			);
 			path = accountameUITests;
+			sourceTree = "<group>";
+		};
+		08BBB98B2C019A8F00128E10 /* login */ = {
+			isa = PBXGroup;
+			children = (
+				08E06FCB2C019B3F008013CE /* LoginView.swift */,
+			);
+			path = login;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,6 +301,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				083045612C0234900051050A /* Api.swift in Sources */,
+				0830455C2C01A3AD0051050A /* User.swift in Sources */,
+				08E06FCC2C019B3F008013CE /* LoginView.swift in Sources */,
+				083045642C0235030051050A /* Environment.swift in Sources */,
 				08BBB9602BFD5F5C00128E10 /* ContentView.swift in Sources */,
 				08BBB95E2BFD5F5C00128E10 /* AccountameApp.swift in Sources */,
 			);
