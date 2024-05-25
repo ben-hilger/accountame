@@ -9,9 +9,10 @@ services:
     environment:
       - DB_HOST=accountame-db
       - DB_PORT=5432
-      - DB_USER=root
-      - DB_PASSWORD=root
-      - DB_NAME=accountame
+      - DB_USER=postgres
+      - DB_PASSWORD=localrootpassword
+      - DB_NAME=postgres
+      - BEARER_SALT=localtestauthsalt
     volumes:
       - ./api/:/api/
     networks:
