@@ -1,34 +1,91 @@
 package user
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
+	"os"
+	"time"
+)
 
-type Service interface {
-	RegisterUser(user RegisterUser) error
+type accountService interface {
+	RegisterUser(user registerAccount) error
+	GetUser(id string) (Account, error)
+	LoginUser(loginRequest loginAccountRequest) (string, error)
+	CreateAuthenticationToken(accountId string) (string, error)
 }
 
-type ServiceImpl struct {
-	userRepository Repository
+type serviceImpl struct {
+	accountRepository repository
 }
 
-func NewService(userRepository Repository) ServiceImpl {
-	return ServiceImpl{
-		userRepository: userRepository,
+func newService(userRepository repository) serviceImpl {
+	return serviceImpl{
+		accountRepository: userRepository,
 	}
 }
 
-func (s ServiceImpl) RegisterUser(user RegisterUser) error {
+func (s serviceImpl) CreateAuthenticationToken(userId string) (string, error) {
+	now := time.Now()
+	validUtil := now.Add(time.Hour * 1).Unix()
+
+	claims := jwt.MapClaims{
+		"user":    userId,
+		"expires": validUtil,
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS512, claims, nil)
+	secret := os.Getenv("BEARER_SALT")
+
+	tokenString, err := token.SignedString([]byte(secret))
+	if err != nil {
+		return "", err
+	}
+	return tokenString, nil
+}
+
+func (s serviceImpl) LoginUser(loginRequest loginAccountRequest) (string, error) {
+	if loginRequest.isMissingInformation() {
+		return "", &invalidAccountError{}
+	}
+
+	userExists, err := s.accountRepository.DoesUserExist(loginRequest.Email)
+	if err != nil {
+		return "", err
+	}
+	if !userExists {
+		return "", &existsError{}
+	}
+	account, err := s.accountRepository.GetUser(loginRequest.Email)
+	if err != nil {
+		return "", err
+	}
+
+	err = validatePassword(account.HashedPassword, loginRequest.Password)
+	if err != nil {
+		return "", &invalidPasswordError{}
+	}
+
+	return account.Id, nil
+}
+
+func (s serviceImpl) GetUser(id string) (Account, error) {
+	return Account{}, nil
+}
+
+func (s serviceImpl) RegisterUser(user registerAccount) error {
 	if user.isMissingInformation() {
-		return &InvalidUserError{}
+		return &invalidAccountError{}
 	}
 
-	userExists, err := s.userRepository.DoesUserExist(user.Email)
+	userExists, err := s.accountRepository.DoesUserExist(user.Email)
 
 	if err != nil {
 		return err
 	}
 
 	if userExists {
-		return &UserExistsError{}
+		return &existsError{}
 	}
 
 	newUser, err := newUser(user)
@@ -36,7 +93,7 @@ func (s ServiceImpl) RegisterUser(user RegisterUser) error {
 		return err
 	}
 
-	err = s.userRepository.RegisterUser(newUser)
+	err = s.accountRepository.RegisterUser(newUser)
 	if err != nil {
 		return err
 	}
@@ -44,12 +101,17 @@ func (s ServiceImpl) RegisterUser(user RegisterUser) error {
 	return nil
 }
 
-func newUser(user RegisterUser) (User, error) {
+func newUser(user registerAccount) (Account, error) {
 	hashedPassword, err := hashPassword(user.Password)
 	if err != nil {
-		return User{}, err
+		return Account{}, err
 	}
-	return User{
+	id, err := uuid.NewUUID()
+	if err != nil {
+		return Account{}, err
+	}
+	return Account{
+		Id:             id.String(),
 		Username:       user.Username,
 		Name:           user.Name,
 		Email:          user.Email,
@@ -64,4 +126,8 @@ func hashPassword(plainTextPassword string) (string, error) {
 		return "", err
 	}
 	return string(hashedPassword), nil
+}
+
+func validatePassword(hashedPassword, plainTextPassword string) error {
+	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(plainTextPassword))
 }

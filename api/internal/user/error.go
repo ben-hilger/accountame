@@ -1,13 +1,19 @@
 package user
 
-type UserExistsError struct{}
+type existsError struct{}
 
-func (u *UserExistsError) Error() string {
-	return "user exists"
+func (u *existsError) Error() string {
+	return "Account exists"
 }
 
-type InvalidUserError struct{}
+type invalidAccountError struct{}
 
-func (u *InvalidUserError) Error() string {
-	return "invalid user"
+func (u *invalidAccountError) Error() string {
+	return "invalid Account"
+}
+
+type invalidPasswordError struct{}
+
+func (u *invalidPasswordError) Error() string {
+	return "invalid password"
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/ben-hilger/accountame-api/internal/auth"
 	"github.com/ben-hilger/accountame-api/internal/database"
 	"github.com/ben-hilger/accountame-api/internal/user"
 	_ "github.com/lib/pq"
@@ -15,14 +16,20 @@ func main() {
 		log.Fatal(err)
 	}
 
-	muxServer := http.NewServeMux()
+	muxHandler := http.NewServeMux()
 
-	muxServer.HandleFunc("/", handleHello)
+	//muxHandler.HandleFunc("/", handleHello)
+
+	authMiddleware := auth.NewMiddleware(auth.NewJwtService())
 
 	userHandler := user.NewHandler(user.NewPostgresClient(db))
-	userHandler.RegisterUserRouteHandlers(muxServer)
+	muxHandler.HandleFunc("POST /user/create", userHandler.RegisterUserHandler)
+	muxHandler.HandleFunc("POST /user/login", userHandler.LoginUserHandler)
+	muxHandler.Handle("GET /user", authMiddleware.Protect(userHandler.RegisterUserHandler))
 
-	log.Fatal(http.ListenAndServe(":8080", muxServer))
+	muxHandler.Handle("/protected-hello", authMiddleware.Protect(handleHello))
+
+	log.Fatal(http.ListenAndServe(":8080", muxHandler))
 }
 
 func handleHello(response http.ResponseWriter, _ *http.Request) {

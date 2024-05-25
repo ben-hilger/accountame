@@ -17,6 +17,6 @@ func SetupDatabase() (*sql.DB, error) {
 	dbPassword := os.Getenv("DB_PASSWORD")
 	dbName := os.Getenv("DB_NAME")
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s", dbHost, dbPort, dbUser, dbPassword, dbName)
+		"password=%s dbname=%s sslmode=disable", dbHost, dbPort, dbUser, dbPassword, dbName)
 	return sql.Open("postgres", psqlInfo)
 }

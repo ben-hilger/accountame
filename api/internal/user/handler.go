@@ -8,19 +8,43 @@ import (
 )
 
 type Handler struct {
-	userService Service
+	accountService accountService
 }
 
-func NewHandler(repository Repository) Handler {
-	return Handler{userService: NewService(repository)}
+func NewHandler(repository repository) Handler {
+	return Handler{accountService: newService(repository)}
 }
 
-func (h Handler) RegisterUserRouteHandlers(mux *http.ServeMux) {
-	mux.HandleFunc("POST /user", h.registerUserHandler)
+func (h Handler) LoginUserHandler(response http.ResponseWriter, request *http.Request) {
+	var loginRequest loginAccountRequest
+
+	err := json.NewDecoder(request.Body).Decode(&loginRequest)
+
+	accountId, err := h.accountService.LoginUser(loginRequest)
+	if errors.Is(err, &existsError{}) || errors.Is(err, &invalidPasswordError{}) || errors.Is(err, &invalidAccountError{}) {
+		http.Error(response, "invalid request", http.StatusBadRequest)
+		return
+	} else if err != nil {
+		fmt.Println(err)
+		http.Error(response, "internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	tokenString, err := h.accountService.CreateAuthenticationToken(accountId)
+	if err != nil {
+		http.Error(response, "internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	loginResponse := loginAccountResponse{AuthToken: tokenString}
+	err = json.NewEncoder(response).Encode(loginResponse)
+	if err != nil {
+		http.Error(response, "internal server error", http.StatusInternalServerError)
+	}
 }
 
-func (h Handler) registerUserHandler(response http.ResponseWriter, request *http.Request) {
-	var registerUser RegisterUser
+func (h Handler) RegisterUserHandler(response http.ResponseWriter, request *http.Request) {
+	var registerUser registerAccount
 
 	err := json.NewDecoder(request.Body).Decode(&registerUser)
 	if err != nil {
@@ -28,13 +52,13 @@ func (h Handler) registerUserHandler(response http.ResponseWriter, request *http
 		return
 	}
 
-	err = h.userService.RegisterUser(registerUser)
+	err = h.accountService.RegisterUser(registerUser)
 
-	if errors.Is(err, &InvalidUserError{}) {
+	if errors.Is(err, &invalidAccountError{}) {
 		http.Error(response, "invalid request", http.StatusBadRequest)
 		return
-	} else if errors.Is(err, &UserExistsError{}) {
-		http.Error(response, "user with email exists", http.StatusConflict)
+	} else if errors.Is(err, &existsError{}) {
+		http.Error(response, "Account with email exists", http.StatusConflict)
 		return
 	} else if err != nil {
 		fmt.Println(err.Error())
@@ -42,8 +66,5 @@ func (h Handler) registerUserHandler(response http.ResponseWriter, request *http
 		return
 	}
 
-	if registerUser.isMissingInformation() {
-		http.Error(response, "invalid request", http.StatusBadRequest)
-		return
-	}
+	response.WriteHeader(http.StatusCreated)
 }
