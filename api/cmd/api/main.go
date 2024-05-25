@@ -23,9 +23,9 @@ func main() {
 	authMiddleware := auth.NewMiddleware(auth.NewJwtService())
 
 	userHandler := user.NewHandler(user.NewPostgresClient(db))
-	muxHandler.HandleFunc("POST /user/create", userHandler.RegisterUserHandler)
-	muxHandler.HandleFunc("POST /user/login", userHandler.LoginUserHandler)
-	muxHandler.Handle("GET /user", authMiddleware.Protect(userHandler.RegisterUserHandler))
+	muxHandler.HandleFunc("POST /api/user/create", userHandler.RegisterUserHandler)
+	muxHandler.HandleFunc("POST /api/user/login", userHandler.LoginUserHandler)
+	muxHandler.Handle("GET /api/user", authMiddleware.Protect(userHandler.GetUserInformationHandler))
 
 	muxHandler.Handle("/protected-hello", authMiddleware.Protect(handleHello))
 

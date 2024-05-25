@@ -43,6 +43,42 @@ func (h Handler) LoginUserHandler(response http.ResponseWriter, request *http.Re
 	}
 }
 
+func (h Handler) GetUserInformationHandler(response http.ResponseWriter, request *http.Request) {
+	uid, ok := request.Context().Value("userId").(string)
+	if !ok || uid == "" {
+		http.Error(response, "invalid request", http.StatusBadRequest)
+		return
+	}
+	account, err := h.accountService.GetUser(uid)
+	if errors.Is(err, &existsError{}) {
+		http.Error(response, "invalid request", http.StatusBadRequest)
+		return
+	} else if err != nil {
+		fmt.Println(err)
+		http.Error(response, "internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	type accountInformationResponse struct {
+		Id       string `json:"id"`
+		Email    string `json:"email"`
+		Username string `json:"username"`
+		Name     string `json:"name"`
+	}
+
+	informationResponse := accountInformationResponse{
+		Id:       account.Id,
+		Email:    account.Email,
+		Username: account.Username,
+		Name:     account.Name,
+	}
+	err = json.NewEncoder(response).Encode(informationResponse)
+	if err != nil {
+		http.Error(response, "internal server error", http.StatusInternalServerError)
+	}
+
+}
+
 func (h Handler) RegisterUserHandler(response http.ResponseWriter, request *http.Request) {
 	var registerUser registerAccount
 

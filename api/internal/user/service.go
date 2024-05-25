@@ -30,7 +30,7 @@ func (s serviceImpl) CreateAuthenticationToken(userId string) (string, error) {
 	validUtil := now.Add(time.Hour * 1).Unix()
 
 	claims := jwt.MapClaims{
-		"user":    userId,
+		"userId":  userId,
 		"expires": validUtil,
 	}
 
@@ -56,7 +56,7 @@ func (s serviceImpl) LoginUser(loginRequest loginAccountRequest) (string, error)
 	if !userExists {
 		return "", &existsError{}
 	}
-	account, err := s.accountRepository.GetUser(loginRequest.Email)
+	account, err := s.accountRepository.GetUserByEmail(loginRequest.Email)
 	if err != nil {
 		return "", err
 	}
@@ -70,7 +70,7 @@ func (s serviceImpl) LoginUser(loginRequest loginAccountRequest) (string, error)
 }
 
 func (s serviceImpl) GetUser(id string) (Account, error) {
-	return Account{}, nil
+	return s.accountRepository.GetUserById(id)
 }
 
 func (s serviceImpl) RegisterUser(user registerAccount) error {

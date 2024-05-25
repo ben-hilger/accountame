@@ -8,7 +8,8 @@ import (
 type repository interface {
 	DoesUserExist(email string) (bool, error)
 	RegisterUser(user Account) error
-	GetUser(email string) (Account, error)
+	GetUserByEmail(email string) (Account, error)
+	GetUserById(id string) (Account, error)
 }
 
 type PostgresClient struct {
@@ -47,10 +48,31 @@ func (p PostgresClient) RegisterUser(user Account) error {
 	return nil
 }
 
-func (p PostgresClient) GetUser(email string) (Account, error) {
+func (p PostgresClient) GetUserByEmail(email string) (Account, error) {
 	user := Account{}
 
 	result, err := p.database.Query("SELECT id, name, email, username, password_hash FROM users WHERE email = $1", email)
+	defer func(result *sql.Rows) {
+		err := result.Close()
+		if err != nil {
+			fmt.Println(err)
+		}
+	}(result)
+
+	if err != nil {
+		return user, err
+	}
+	if !result.Next() {
+		return user, &existsError{}
+	}
+	err = result.Scan(&user.Id, &user.Name, &user.Email, &user.Username, &user.HashedPassword)
+	return user, nil
+}
+
+func (p PostgresClient) GetUserById(id string) (Account, error) {
+	user := Account{}
+
+	result, err := p.database.Query("SELECT id, name, email, username, password_hash FROM users WHERE id = $1", id)
 	defer func(result *sql.Rows) {
 		err := result.Close()
 		if err != nil {
