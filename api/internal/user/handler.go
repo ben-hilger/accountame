@@ -18,6 +18,7 @@ func NewHandler(repository repository) Handler {
 func (h Handler) LoginUserHandler(response http.ResponseWriter, request *http.Request) {
 	var loginRequest loginAccountRequest
 
+	fmt.Println("Attempting to login")
 	err := json.NewDecoder(request.Body).Decode(&loginRequest)
 
 	accountId, err := h.accountService.LoginUser(loginRequest)

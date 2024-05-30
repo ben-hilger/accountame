@@ -6,6 +6,7 @@ import (
 	"github.com/ben-hilger/accountame-api/internal/database"
 	"github.com/ben-hilger/accountame-api/internal/user"
 	_ "github.com/lib/pq"
+	"github.com/rs/cors"
 	"log"
 	"net/http"
 )
@@ -24,12 +25,14 @@ func main() {
 
 	userHandler := user.NewHandler(user.NewPostgresClient(db))
 	muxHandler.HandleFunc("POST /api/user/create", userHandler.RegisterUserHandler)
-	muxHandler.HandleFunc("POST /api/user/login", userHandler.LoginUserHandler)
+	muxHandler.HandleFunc("POST /api/v1/user/login", userHandler.LoginUserHandler)
 	muxHandler.Handle("GET /api/user", authMiddleware.Protect(userHandler.GetUserInformationHandler))
 
 	muxHandler.Handle("/protected-hello", authMiddleware.Protect(handleHello))
 
-	log.Fatal(http.ListenAndServe(":8080", muxHandler))
+	handler := cors.AllowAll().Handler(muxHandler)
+
+	log.Fatal(http.ListenAndServe(":8080", handler))
 }
 
 func handleHello(response http.ResponseWriter, _ *http.Request) {
